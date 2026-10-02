@@ -73,7 +73,7 @@
               </div>
 
               <p class="login-or">ou</p>
-              <a class="login-register" href="#">Crée un compte</a>
+              <a class="login-register" href="?page=inscription">Crée un compte</a>
             </div>
             </div>
             <a href="">

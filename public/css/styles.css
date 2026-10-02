@@ -12,6 +12,11 @@
 
 html {
   scroll-behavior: smooth;
+  /* côtés + espace */
+  background: linear-gradient(to right,
+    var(--bg-main) calc(50% - 724px),
+    white calc(50% - 724px) calc(50% + 724px),
+    var(--bg-main) calc(50% + 724px));
 }
 
 body {
@@ -19,6 +24,8 @@ body {
   line-height: 1.5;
   background-color: white;
   font-family: "Abyssinica SIL", serif;
+  max-width: 1440px;   /* largeur max */
+  margin-inline: auto; /* centré */
 }
 
 img,
@@ -712,4 +719,54 @@ width: 280px;
   background: var(--text-primary);
   color: var(--color-white);
   text-align: center;
+}
+
+/* ---------- INSCRIPTION ---------- */
+.register {
+  max-width: 420px;
+  margin: 60px auto 100px;
+  padding-inline: 24px;
+  color: var(--text-primary);
+}
+
+.register-title {
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.register-form input {
+  height: 36px;
+  margin-bottom: 10px;
+  padding-inline: 8px;
+  border: 1px solid var(--text-primary);
+  background: transparent;
+}
+
+.register-submit {
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--text-secondary);
+  color: var(--color-white);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.register-errors {
+  margin-bottom: 16px;
+  color: #b00020;
+  font-size: 14px;
+}
+
+.register-success {
+  margin-bottom: 16px;
+  color: var(--text-primary);
 }
