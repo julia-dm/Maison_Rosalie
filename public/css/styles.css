@@ -154,6 +154,21 @@ background-color: var(--bg-main);
   fill: var(--text-secondary);
 }
 
+/* Icône contact (akar-icons:info) : tracé orange, remplace le lien texte « Contact » */
+.icon-stroke {
+  fill: none;
+  stroke: var(--color-orange);
+  stroke-width: 2.67;
+  transition: stroke 0.2s ease;
+}
+
+.nav-brand a:hover .icon-stroke,
+.nav-brand a:focus-visible .icon-stroke,
+.nav-contact[aria-current="page"] .icon-stroke {
+  fill: none;
+  stroke: var(--bg-dark-brown);
+}
+
 .nav-list {
   display: flex;
   align-items: center;
