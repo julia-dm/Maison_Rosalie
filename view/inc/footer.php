@@ -1,15 +1,14 @@
 <footer class="footer">
     <div class="container">
 
-        <a class="footer-logo" href="/"><img src="images/logo/vert-logo.png" alt="Maison Rosalie"></a>
+        <a class="footer-logo" href="/"><img src="images/figma/footer-logo.png" alt="Maison Rosalie"></a>
 
         <section class="footer-col">
-            <h2 class="footer-title">Nos Chocolat</h2>
+            <h2 class="footer-title">Nos recettes</h2>
             <ul class="footer-list">
-                <li><a class="footer-link" href="/?page=recettes">Nos pralines</a></li>
-                <li><a class="footer-link" href="/?page=recettes">Nos coffrets</a></li>
-                <li><a class="footer-link" href="/?page=recettes">Nos best-sellers</a></li>
-                <li><a class="footer-link" href="/?page=recettes">Coffret cadeau</a></li>
+                <li><a class="footer-link" href="/?page=recettes">Pralines l’orangette</a></li>
+                <li><a class="footer-link" href="/?page=recettes">Pralines citronnelle</a></li>
+                <li><a class="footer-link" href="/?page=recettes">Pralines cerisette</a></li>
             </ul>
         </section>
 

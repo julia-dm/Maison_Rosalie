@@ -11,6 +11,7 @@ $stepsPrepManager=new StepsManager($connectPDO);
 $page = $_GET['page']?? 'accueil';
 if ($page === 'accueil') {
 
+    $recipes = $recipeManager->getAllRecipes();
     require_once RACINE_PATH . '/view/accueil.php';
 
 } elseif ($page === 'apropos') {

@@ -20,7 +20,9 @@
 
   <!-- ============================ -->
 
-  <title>Document</title>
+  <title>Maison Rosalie – Le livre de recettes au chocolat</title>
+  <meta name="description" content="Maison Rosalie, chocolaterie belge depuis 1987 : découvrez nos recettes de chocolat pas à pas.">
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -28,7 +30,7 @@
     <div class="container">
 
       <div class="logo-wrap">
-        <a class="logo" href="/"><img src="images/logo/horiz-logo.png" alt="Maison Rasolie"></a>
+        <a class="logo" href="/"><img src="images/figma/logo-mr.png" alt="Maison Rosalie"></a>
       </div>
 
       <nav class="navbar">
