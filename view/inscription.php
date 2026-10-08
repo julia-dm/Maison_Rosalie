@@ -17,22 +17,52 @@ require_once __DIR__ . "/inc/header.php";
         </ul>
     <?php endif; ?>
 
-    <form class="register-form" method="post" action="?page=inscription">
-        <label for="register-username">Nom d'utilisateur</label>
-        <input type="text" id="register-username" name="username" maxlength="50"
-            value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
+    <form class="register-form"  method="post" action="?page=inscription">
 
-        <label for="register-email">E-mail</label>
-        <input type="email" id="register-email" name="email" maxlength="254"
-            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+        <div class="field" id="f-name">
+            <label for="register-username">Nom d'utilisateur</label>
 
-        <label for="register-password">Mot de passe</label>
-        <input type="password" id="register-password" name="password" required>
+            <input class="js-input-name" type="text" id="register-username" name="username" maxlength="50"
+                value="<?= $success ? '' : htmlspecialchars($_POST['username'] ?? '') ?>" required>
 
-        <label for="register-confirm">Confirmer le mot de passe</label>
-        <input type="password" id="register-confirm" name="password_confirm" required>
+            <div class="msg">Au moins 3 caractères</div>
+        </div>
 
-        <button class="register-submit" type="submit">Créer mon compte</button>
+
+        <div class="field" id="f-email">
+            <label for="register-email">E-mail</label>
+
+            <input class="js-input-email" type="email" id="register-email" name="email" maxlength="254"
+                value="<?= $success ? '' : htmlspecialchars($_POST['email'] ?? '') ?>" required>
+
+            <div class="msg">Respectez le format mail</div>
+        </div>
+
+
+        <div class="field" id="f-pwd">
+            <label for="register-password">Mot de passe</label>
+
+            <input class="js-input-pwd" type="password" id="register-password" name="password" required>
+
+            <div class="msg">
+                Au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
+            </div>
+        </div>
+
+
+        <div class="field" id="f-confirm">
+            <label for="register-confirm">Confirmer le mot de passe</label>
+
+            <input class="js-input-confirm" type="password" id="register-confirm" name="password_confirm" required>
+
+            <div class="msg">Les mots de passe ne correspondent pas</div>
+        </div>
+
+
+        <button class="register-submit" type="submit">
+            Créer mon compte
+        </button>
+
     </form>
 </main>
 

@@ -34,6 +34,7 @@ button,
 textarea,
 select {
   font: inherit;
+  outline: none;
 }
 
 button {
@@ -846,6 +847,7 @@ justify-content: space-between;
   text-align: center;
 }
 
+
 /* ---------- INSCRIPTION ---------- */
 .register {
   max-width: 420px;
@@ -894,6 +896,39 @@ justify-content: space-between;
 .register-success {
   margin-bottom: 16px;
   color: var(--text-primary);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field .msg {
+  display: none;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* ERROR */
+
+.field.invalid input {
+  border: 2px solid #c62828;
+}
+
+.field.invalid .msg {
+  display: block;
+  color: #c62828;
+}
+
+
+/* VALID */
+
+.field.valid input {
+  border: 2px solid #2e7d32;
+}
+
+.field.valid .msg {
+  display: none;
 }
 /*-------CONTACT------------*/
 .sr-only {
