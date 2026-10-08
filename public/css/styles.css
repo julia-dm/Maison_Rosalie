@@ -12,22 +12,14 @@
 
 html {
   scroll-behavior: smooth;
-  /* côtés + espace */
-  background: linear-gradient(to right,
-    var(--bg-main) calc(50% - 724px),
-    white calc(50% - 724px) calc(50% + 724px),
-    var(--bg-main) calc(50% + 724px));
+  background-color: var(--bg-main);
 }
 
 body {
   min-height: 100vh;
   line-height: 1.5;
-  background-color: white;
-  font-family: "Abyssinica SIL", serif;
-  max-width: 1440px;   /* largeur max */
-  margin-inline: auto; /* centré */
+  background-color: var(--bg-main);
 }
-
 img,
 picture,
 video,
@@ -66,6 +58,7 @@ a {
   --color-black: #121212;
   --color-white: #ffffff;
   --color-light-white: rgba(225, 225, 225, 1);
+  --color-orange:rgba(237, 110, 0, 1);
 
   /* Backgroubds */
   --bg-main: rgba(250, 243, 227, 1);
@@ -83,24 +76,37 @@ a {
   --text-tertiary: rgba(146, 127, 110, 1);
   /* Footer title */
 }
+@font-face {
+  font-family: 'Monarque';
+  src: url('../assets/Monarque-Font/Monarque-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Monarque';
+  src: url('../assets/Monarque-Font/Monarque-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
 .container {
   width: 100%;
-  max-width: 1540px;
+  max-width: 1440px;
   margin-inline: auto;
-  padding-inline: 125px;
+  padding-inline: 85px;
 }
 
 /*-------HEADER------------*/
 .header {
-padding: 28px;
-background-color: var(--bg-main);
-
+  padding: 15px 0 0;
 }
 
 .header .container {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .logo-wrap {
@@ -110,7 +116,8 @@ background-color: var(--bg-main);
 
 .logo {
   display: block;
-  width: min(100%, 520px);
+  width: 636px;
+  max-width: 50vw;
 }
 
 .logo img {
@@ -118,13 +125,21 @@ background-color: var(--bg-main);
   width: 100%;
   height: auto;
 }
-
+/* 
 .navbar {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: space-around;
-  gap: 15px;
+justify-content: space-between;
+} */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  height: 165px;
+  margin-top: 20px;
 }
 
 .nav-top {
@@ -172,18 +187,20 @@ background-color: var(--bg-main);
 .nav-list {
   display: flex;
   align-items: center;
-  gap: 30px;
+  justify-content: space-between;
+  width: 100%;
+  gap: 45px;
   margin: 0;
   padding: 0;
 }
-
 .nav-link {
   white-space: nowrap;
   position: relative;
   display: inline-block;
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 24px;
   transition: color 0.2s ease;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .nav-link::before {
@@ -339,17 +356,18 @@ background-color: var(--bg-main);
 
 .hero {
   position: relative;
-  min-height: 600px;
   overflow: hidden;
-  background-color: var(--bg-main);
+  padding: 0 50px;
 }
 
 .hero .container {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-columns: 58% 42%;
   align-items: center;
-  gap: 40px;
-  min-height: 600px;
+  gap: 0;
+  min-height: 590px;
+  padding-top: 15px;
+  padding-bottom: 45px;
 }
 
 .hero_decoration {
@@ -365,44 +383,62 @@ background-color: var(--bg-main);
 .hero-text {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   align-items: center;
   text-align: center;
+  gap: 25px;
+  width: 100%;
+  padding-left: 90px;
 }
 
 .hero-title {
-  font-family: var(--font-display);
+  max-width: 710px;
+  font-family: 'Monarque', Georgia, serif;
   font-style: italic;
-  font-weight: 700;
-  font-size: clamp(36px, 4.4vw, 64px);
-  line-height: 1.1;
+  font-weight:700;
+  font-size: 63px;
+  line-height: 1.35;
   color: var(--text-primary);
 }
 
 .hero-subtitle {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 24px;
-  line-height: 1.15;
+  max-width: 620px;
+  font-size: 21px;
+  line-height: 1.25;
+  font-family: "Josefin Sans", sans-serif;
   color: var(--color-orange);
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 .hero-link {
-  width: min(100%, 421px);
-  text-align: center;
-  box-sizing: border-box;
-  font-family: var(--font-ui);
-  font-size: 32px;
+  display: block;
+  width: 420px;
+  max-width: 100%;
+  padding: 10px 25px;
+
   background: var(--text-primary);
   color: var(--color-white);
-  padding: 10px;
-  border-radius: 146px;
+
+  border-radius: 30px;
+
+  font-family: Georgia, serif;
+  font-size: 28px;
+  line-height: 1.4;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+.hero-link:hover{
+  background: var(--text-secondary);
 }
 
+
 .hero-img {
-  transform: rotate(-24deg);
-  justify-self: center;
-  width: min(100%, 442px);
+  transform: rotate(-25deg) translateX(-20px);
+
+}
+.hero-img img{
+    filter: drop-shadow(2px 4px 7px rgba(0.2, 0.3, 0.4, 0.5));
+
 }
 .hero-video {
   display: flex;
@@ -415,7 +451,10 @@ background-color: var(--bg-main);
   max-width: 100%;
   height: auto;
 }
-
+.top-recipes{
+  height: 120px;
+  background-color: var(--bg-main);
+}
 /* ---------- TABLET ---------- */
 
 @media screen and (max-width: 1024px) {
@@ -531,7 +570,11 @@ background-color: var(--bg-main);
     width: 120px;
   }
 }
-
+.video{
+  display: block;
+  width: 100%;
+  height: auto;
+}
 /*-------FOOTER------------*/
 .footer {
   padding-block: 32px;
@@ -616,11 +659,12 @@ background-color: var(--bg-main);
 }
 
 /*-------A PROPOS------------*/
-.apropos_title {
-  font-size: 28px;
+/* .apropos_title {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 40px;
   font-weight: 400;
   color: var(--text-primary);
-}
+} */
 
 .apropos_hero {
   padding: 80px 24px 120px;
@@ -1084,12 +1128,50 @@ a.contact-info-link:focus-visible {
   display: flex;
   flex-direction: column;
 text-align: center;
+padding-top: 10px;
   min-height: 280px;
   text-align: center;
   border-radius: 15px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
+}
+.card-heading {
+  width: 100%;
+  margin-bottom: 20px;
+  font-family: 'Monarque', Georgia, serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.card-title {
+  margin: 0;
+  font-size: clamp(48px, 4.5vw, 72px);
+  line-height: 1;
+  color: var(--text-primary);
+  white-space: nowrap;
+
+}
+
+.card-flavor {
+  margin: 10px 0 0;
+  font-size: clamp(48px, 4.5vw, 72px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ----- Colors ----- */
+
+.card-flavor.orangette {
+  color: #ff9848;
+}
+
+.card-flavor.citronnelle {
+  color: #f2cb54;
+}
+
+.card-flavor.cerisette {
+  color: #f51b38;
 }
 
 .card-recipe:hover {
@@ -1147,8 +1229,18 @@ text-align: center;
 
 .recipe-title {
   margin: 0;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 74px;
+  font-family: 'Monarque', Georgia, serif;
+  font-size: 72px;
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -3px;
+  color: var(--text-primary);
+}
+
+.card-flavor {
+  margin: 0;
+  font-family: 'Monarque', Georgia, serif;
+  font-size: 72px;
   line-height: 1.08;
   font-weight: 400;
   letter-spacing: -3px;
@@ -1221,6 +1313,10 @@ text-align: center;
 }
 .section-title{
   font-size: 32px;
+  font-family: 'Monarque', Georgia, serif;
+  font-weight: 700;
+  color: var(--text-primary);
+
 }
 .line{
   margin: 0 0 50px 0;
@@ -1258,6 +1354,25 @@ row-gap: 30px;
   align-items: center;
   gap: 27px;
 }
+.recipe-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin-top: 50px;
+}
+.recipe-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.recipe-detail-desc{
+  color: var(--text-primary);
+  font-family: 'Monarque', Georgia, serif;
+  font-weight: 700;
+}
+
 /* --------------Steps------------- */
 .preparation {
   display: grid;

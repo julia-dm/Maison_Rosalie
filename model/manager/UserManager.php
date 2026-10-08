@@ -1,19 +1,41 @@
 <?php
-//model/manager/UserManager.php
+// path: model/manager/UserManager.php
+// typage strict
 declare(strict_types=1);
+
 namespace model\manager;
-use model\abstract\AbstractManager;
+use PDO;
+use model\interface\ManagerInterface;
 use model\mapping\UserMapping;
 
-class UserManager extends AbstractManager{
+class UserManager implements ManagerInterface
+{
+    protected PDO $connect;
 
-    // email ou username déjà pris
-    public function emailOrUsernameExists(string $email, string $username): bool{
-        // TODO
+    public function __construct(PDO $connect)
+    {
+        $this->connect = $connect;
     }
-
-    // INSERT users
-    public function createUser(UserMapping $user): bool{
-        // TODO
-    }
+public function emailOrUsernameExists(string $email, string $username): bool{
+$sql="SELECT email,username FROM users WHERE email=:email OR username=:username";
+$stmt = $this->connect->prepare($sql);
+$stmt->execute([
+    'email' => $email,
+    'username' => $username
+]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row !== false;
 }
+    
+public function createUser(UserMapping $user): bool
+{
+ $sql="INSERT INTO users (`username`, `email`,`password_hash`,`generated_key`)
+    VALUES (:username, :email, :password_hash, :generated_key)";
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(':username',$user->getUsername());
+            $stmt->bindValue(':email',$user->getEmail());
+            $stmt->bindValue(':password_hash',$user->getPasswordHash());
+            $stmt->bindValue(':generated_key',$user->getGeneratedKey());
+            return $stmt->execute();
+}
+} 

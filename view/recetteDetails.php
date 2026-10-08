@@ -6,9 +6,17 @@ require_once __DIR__ . "/inc/header.php";
 <section class="recipe-description">
     <div class="recipe-grid">
         <div class="recipe-info">
-            <h2 class="recipe-title">
-                <?= htmlspecialchars($recetteDetails->getTitle())?>
-            </h2>
+        <?php
+$title = $recetteDetails->getTitle();
+$flavor = trim(str_replace('La Praline', '', $title));
+$flavorClass = strtolower($flavor);
+?>
+            
+            <h2 class="recipe-title">La Praline</h2>
+    <h2 class="card-flavor <?= htmlspecialchars($flavorClass) ?>">
+        <?= htmlspecialchars($flavor) ?>
+    </h2>
+            
             <img
                 class="recipe-inside-img"
                 src="images/cards/<?= htmlspecialchars($recetteDetails->getMainImage())?>"
@@ -39,7 +47,7 @@ require_once __DIR__ . "/inc/header.php";
     
         <div class="line">
 <h2 class="section-title">Les Ingrédients</h2>
-<img class="bowl-svg" src="images/bowl.svg" alt="">
+<img class="bowl-svg" src="images/svg/bowl.svg" alt="">
 </div>
 <div class="ingredients">
 <?php foreach ($ingredients as $ingredient): ?>
@@ -53,7 +61,7 @@ require_once __DIR__ . "/inc/header.php";
 <section class="recipe-description">
 <div class="line">
 <h2 class="section-title">La Préparation</h2>
-<img class="svg" src="images/whisk.svg" alt="">
+<img class="svg" src="images/svg/whisk.svg" alt="">
 </div>
 <div class="preparation">
 <?php foreach ($steps as $step): ?>
@@ -63,8 +71,20 @@ require_once __DIR__ . "/inc/header.php";
        
     </div>
 <?php endforeach; ?>
-<p><?= htmlspecialchars($recetteDetails->getDifficulty())?></p>
-<p><?= htmlspecialchars($recetteDetails->formatCookingTime($recetteDetails->getCookTimeMinutes()))?></p>
+</div>
+ <div class="recipe-details">
+<div class="recipe-detail">
+    <img  src="images/svg/time.svg" alt="">
+<p class="recipe-detail-desc"><?= htmlspecialchars($recetteDetails->formatCookingTime($recetteDetails->getCookTimeMinutes()))?></p>
+</div>
+<div class="recipe-detail">
+    <img src="images/svg/difficulty.svg" alt="">
+<p class="recipe-detail-desc"><?= htmlspecialchars($recetteDetails->getDifficulty())?></p>
+</div>
+<div class="recipe-detail">
+    <img src="images/svg/money.svg" alt="">
+<p class="recipe-detail-desc"><?= htmlspecialchars($recetteDetails->getDifficulty())?></p>
+</div>
 </div>
 </section>
 </div>

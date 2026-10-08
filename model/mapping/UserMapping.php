@@ -10,60 +10,62 @@ class UserMapping extends AbstractMapping
     private ?int $id = null;
     private string $username = '';
     private string $email = '';
-    private string $passwordHash = '';
+    private string $password_hash = '';
     private string $role = 'user';
-    private ?string $createdAt = null;
+    private ?string $created_at = null;
     private ?string $generated_key = "";
 
     public function getId(): ?int
     {
         return $this->id;
     }
-    public function setId(int|string $v): void
+    public function setId(?int $id): void
     {
-        $this->id = (int) $v;
+        $this->id = $id;
     }
     public function getUsername(): string
     {
         return $this->username;
     }
-    public function setUsername(string $v): void
+    public function setUsername(string $username): void
     {
-        $this->username = $v;
+        $this->username = $username;
     }
     public function getEmail(): string
     {
         return $this->email;
     }
-    public function setEmail(string $v): void
+    public function setEmail(string $email): void
     {
-        $this->email = $v;
+        $this->email = $email;
     }
     public function getPasswordHash(): string
     {
-        return $this->passwordHash;
+        return $this->password_hash;
     }
-    public function setPasswordHash(string $v): void
+    public function setPasswordHash(string $password_hash): void
     {
-        $this->passwordHash = $v;
+        $this->password_hash = $password_hash;
     }
     public function getRole(): string
     {
         return $this->role;
     }
-    public function setRole(string $v): void
+    public function setRole(string $role): void
     {
-        $this->role = $v;
+        $this->role = $role;
     }
     public function getCreatedAt(): ?string
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
-    public function setCreatedAt(string $v): void
+    public function setCreatedAt(?string $created_at): void
     {
-        $this->createdAt = $v;
+        $this->created_at = $created_at;
     }
-    public function getGenetatedKey(): ?string
+
+    
+    public function getGeneratedKey(): ?string
     {
         return $this->generated_key;
     }
