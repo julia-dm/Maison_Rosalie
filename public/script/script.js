@@ -32,3 +32,14 @@ document.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") toggleLogin(false);
 });
+
+
+// Bouton « Se connecter » de la section avis : ouvre le panneau de connexion du header
+document.querySelectorAll("[data-open-login]").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation(); // sinon le clic « en dehors » referme aussitôt le panneau
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    toggleLogin(true);
+    document.querySelector("#login-email")?.focus({ preventScroll: true });
+  });
+});

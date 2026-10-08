@@ -6,10 +6,15 @@ use model\manager\IngredientsManager;
 use model\manager\StepsManager;
 use model\manager\UserManager;
 use model\manager\MailManager;
+use model\manager\CommentManager;
+use model\manager\RatingManager;
+use model\mapping\CommentMapping;
 $recipeManager = new RecipeManager($connectPDO);
 $ingredientsManager = new IngredientsManager($connectPDO);
 $stepsPrepManager=new StepsManager($connectPDO);
 $userManager = new UserManager($connectPDO);
+$commentManager = new CommentManager($connectPDO);
+$ratingManager = new RatingManager($connectPDO);
 
 $page = $_GET['page']?? 'accueil';
 if ($page === 'accueil') {
@@ -90,6 +95,61 @@ elseif ($page === 'recetteDetails') {
         $id = $recetteDetails->getId();
         $ingredients = $ingredientsManager->getIngredientsByRecipeId($id);
         $steps = $stepsPrepManager->getStepsById($id);
+
+    // ---------- Avis (note + commentaire) ----------
+    // l'utilisateur connecté est attendu dans $_SESSION['user_id'] et $_SESSION['username']
+    $currentUserId = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
+
+    // jeton anti-CSRF pour le formulaire d'avis
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    $reviewErrors = [];
+    $reviewValues = ['rating' => 0, 'message' => ''];
+    $reviewSent = isset($_GET['avis']) && $_GET['avis'] === 'ok';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review_submit'])) {
+        $reviewValues['rating'] = (int) ($_POST['rating'] ?? 0);
+        $reviewValues['message'] = trim($_POST['message'] ?? '');
+
+        if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
+            $reviewErrors[] = "La session a expiré, veuillez réessayer.";
+        }
+        if ($currentUserId === null) {
+            $reviewErrors[] = "Vous devez être connecté pour laisser un avis.";
+        }
+        if ($reviewValues['rating'] < 1 || $reviewValues['rating'] > 5) {
+            $reviewErrors[] = "Choisissez une note entre 1 et 5 étoiles.";
+        }
+        if ($reviewValues['message'] === '' || mb_strlen($reviewValues['message']) > 500) {
+            $reviewErrors[] = "Votre commentaire est obligatoire (500 caractères maximum).";
+        }
+
+        if (empty($reviewErrors)) {
+            $comment = new CommentMapping([
+                'author_id' => $currentUserId,
+                'recipe_id' => $id,
+                'message' => $reviewValues['message'],
+            ]);
+            try {
+                $connectPDO->beginTransaction();
+                $ratingManager->saveRating($currentUserId, $id, $reviewValues['rating']);
+                $commentManager->addComment($comment);
+                $connectPDO->commit();
+
+                // Post/Redirect/Get : évite le double envoi au rafraîchissement
+                header('Location: ?page=recetteDetails&slug=' . urlencode($recetteDetails->getSlug()) . '&avis=ok#avis');
+                exit;
+            } catch (Exception $e) {
+                $connectPDO->rollBack();
+                $reviewErrors[] = "Une erreur est survenue, votre avis n'a pas été enregistré.";
+            }
+        }
+    }
+
+    $comments = $commentManager->getPublishedByRecipeId($id);
+    $ratingSummary = $ratingManager->getSummary($id);
 
 
     require RACINE_PATH . '/view/recetteDetails.php';

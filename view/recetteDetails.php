@@ -42,6 +42,11 @@ $flavorClass = strtolower($flavor);
     </div>
 
 </section>
+</div>
+
+<?php require __DIR__ . "/inc/reviews.php"; ?>
+
+<div class="container">
 
 <section class="recipe-description ">
     
