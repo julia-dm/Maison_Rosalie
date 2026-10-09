@@ -532,6 +532,9 @@ justify-content: space-between;
 }
 /*-------FOOTER------------*/
 .footer {
+  /* body est en flex colonne : le footer reste collé en bas même si la page est courte */
+  flex-shrink: 0;
+  margin-top: auto;
   padding-block: 32px;
   background-color: var(--bg-dark-brown);
   color: var(--color-light-white);
@@ -841,6 +844,7 @@ justify-content: space-between;
 
 /* ---------- INSCRIPTION ---------- */
 .register {
+  width: 100%; /* body en flex : sans ça, le formulaire se rétrécit */
   max-width: 420px;
   margin: 60px auto 100px;
   padding-inline: 24px;
@@ -2457,4 +2461,110 @@ row-gap: 30px;
 
 .top-recipes img {
   object-fit: contain;
+}
+
+
+/* ---------- ACCUEIL : les 3 meilleures recettes ---------- */
+.top-recipes-section {
+  padding: 50px 24px 60px;
+  text-align: center;
+}
+
+.top-recipes {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 36px;
+  padding: 0;
+}
+
+.top-recipes > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 220px;
+}
+
+.top-recipe-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-primary);
+}
+
+.top-recipes img {
+  width: auto;
+  height: 200px;
+  transition: transform 0.25s ease;
+}
+
+.top-recipe-link:hover img,
+.top-recipe-link:focus-visible img {
+  transform: translateY(-6px);
+}
+
+.top-recipe-name {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.top-recipe-link:hover .top-recipe-name,
+.top-recipe-link:focus-visible .top-recipe-name {
+  color: var(--color-orange);
+}
+
+@media (max-width: 768px) {
+  .top-recipes-section {
+    padding: 28px 16px 36px;
+  }
+
+  .creations-eyebrow {
+    font-size: 16px;
+  }
+
+  .creations-subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  .top-recipes {
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .top-recipes > li {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .top-recipes img {
+    width: auto;
+    max-width: 100%;
+    height: 100px;
+    object-fit: contain;
+  }
+
+  .top-recipe-name {
+    font-size: 12px;
+  }
+
+  .top-recipes .stars {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}
+
+/* message d'erreur du panneau de connexion */
+.login-error {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  border-left: 3px solid #b00020;
+  background: rgba(255, 255, 255, 0.6);
+  color: #b00020;
+  font-size: 12px;
+  text-transform: none;
 }

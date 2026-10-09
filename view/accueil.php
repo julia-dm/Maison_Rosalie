@@ -33,21 +33,29 @@ function pralineImage(string $mainImage): string
             </div>
         </div>
     </section>
-    <section class="top-recipes-section">
-<div class="top-recipes">
-    <div>
-        <img src="images/cards/orange.png" alt="">
-        <p></p>
-    </div>
-    <div >
-        <img src="images/cards/orange.png" alt="">
-        <p></p>
-    </div>
-    <div >
-        <img src="images/cards/orange.png" alt="">
-        <p></p>
-    </div>
-</div>
+    <section class="top-recipes-section" aria-labelledby="top-recipes-title">
+        <h2 class="creations-eyebrow" id="top-recipes-title">Nos meilleures recettes</h2>
+        <p class="creations-subtitle">Les créations préférées de nos gourmands.</p>
+
+        <?php if (empty($topRecipes)): ?>
+            <p class="creations-empty">Nos recettes arrivent bientôt.</p>
+        <?php else: ?>
+            <ol class="top-recipes">
+                <?php foreach ($topRecipes as $topRecipe): ?>
+                    <li>
+                        <a class="top-recipe-link" href="?page=recetteDetails&amp;slug=<?= urlencode($topRecipe->getSlug()) ?>">
+                            <img src="<?= htmlspecialchars(pralineImage($topRecipe->getMainImage())) ?>"
+                                alt="<?= htmlspecialchars($topRecipe->getTitle()) ?>" loading="lazy">
+                            <span class="top-recipe-name"><?= htmlspecialchars($topRecipe->getTitle()) ?></span>
+                        </a>
+                        <?php if ($topRecipe->getAverageRating() !== null): ?>
+                            <span class="stars" style="--rating: <?= $topRecipe->getAverageRating() ?>;" role="img"
+                                aria-label="Note moyenne : <?= number_format($topRecipe->getAverageRating(), 1, ',', '') ?> sur 5 (<?= $topRecipe->getRatingsCount() ?> avis)"></span>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        <?php endif; ?>
     </section>
      <section class="hero-video">
     <img class="video" src="/images/main-video.gif" alt="Description of the animation">

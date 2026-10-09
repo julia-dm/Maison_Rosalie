@@ -22,6 +22,30 @@ class RecipeManager extends AbstractManager{
         return $recipes;
     }
 
+    // les meilleures recettes : moyenne des notes la plus haute d'abord,
+    // puis le nombre de notes ; sans note, les plus récentes passent en dernier
+    public function getTopRecipes(int $limit = 3): array
+    {
+        $sql = "SELECT r.*, s.average_rating, COALESCE(s.ratings_count, 0) AS ratings_count
+                FROM recipes AS r
+                LEFT JOIN (
+                    SELECT recipe_id, ROUND(AVG(rating), 1) AS average_rating, COUNT(*) AS ratings_count
+                    FROM ratings
+                    GROUP BY recipe_id
+                ) AS s ON s.recipe_id = r.id
+                ORDER BY s.average_rating IS NULL, s.average_rating DESC, ratings_count DESC, r.created_at DESC
+                LIMIT :limit";
+        $stmt = $this->connect->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $recipes = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $recipes[] = new RecipeMapping($row);
+        }
+        return $recipes;
+    }
+
     public function getRecipeById(int $id): ?RecipeMapping
     {
         $sql = 'SELECT * FROM recipes WHERE id = :id LIMIT 1';

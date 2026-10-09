@@ -16,6 +16,9 @@ class RecipeMapping extends AbstractMapping
     private  ?int $prep_time_minutes =null;
     private ?int $cook_time_minutes = null;
     private string $difficulty = '';
+    // rempli seulement par RecipeManager::getTopRecipes()
+    private ?float $average_rating = null;
+    private int $ratings_count = 0;
     
     // getters and setters
     public function getId():?int
@@ -96,6 +99,26 @@ public function setCookTimeMinutes(?int $cook_time_minutes): void
 {
     $this->cook_time_minutes = $cook_time_minutes;
 }
+public function getAverageRating(): ?float
+{
+    return $this->average_rating;
+}
+
+public function setAverageRating(float|string|null $average_rating): void
+{
+    $this->average_rating = $average_rating === null ? null : (float) $average_rating;
+}
+
+public function getRatingsCount(): int
+{
+    return $this->ratings_count;
+}
+
+public function setRatingsCount(int|string $ratings_count): void
+{
+    $this->ratings_count = (int) $ratings_count;
+}
+
 public function formatCookingTime(?int $cook_time_minutes ):string{
 $hours=intdiv($cook_time_minutes,60);
 $min=$cook_time_minutes%60;
