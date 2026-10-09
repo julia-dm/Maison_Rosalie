@@ -17,6 +17,58 @@ $commentManager = new CommentManager($connectPDO);
 $ratingManager = new RatingManager($connectPDO);
 
 $page = $_GET['page']?? 'accueil';
+
+/* ================= LOGOUT ================= */
+if ($page === 'logout' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        # destruction des variables de sessions (réinitialisation du tableau $_SESSION)
+    $_SESSION = [];
+        # suppression du cookie
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
+    }
+        # Destruction du fichier lié sur le serveur
+    session_destroy();
+    header('Location: ?page=accueil');
+    exit;
+}
+/* ================= LOGIN================= */
+
+$loginError = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
+
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    $user = $userManager->getUserByEmail($email);
+
+    if ($user && password_verify($password, $user['password_hash'])) {
+
+        session_regenerate_id(true);
+
+        $_SESSION['user_id'] = (int) $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        header('Location: ?page=accueil');
+        exit;
+
+    } else {
+        echo "E-mail ou mot de passe incorrect.";
+        die();
+    }
+}
+
+
 if ($page === 'accueil') {
 
     $recipes = $recipeManager->getAllRecipes();
@@ -69,6 +121,7 @@ elseif ($page === 'inscription') {
             'generated_key' => ''
         ]);
         $userManager->createUser($user);
+
        /*  if ($userManager->createUser($user)) {
                 $mailManager = new MailManager();
             $mailManager->sendVerificationEmail(
