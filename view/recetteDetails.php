@@ -58,7 +58,7 @@ $flavorClass = strtolower($flavor);
 <?php foreach ($ingredients as $ingredient): ?>
     <div class="card">
        <img src="images/ingridients/<?= htmlspecialchars($ingredient->getImgIngredient() )?>" alt="">
-<p> <?= htmlspecialchars($ingredient->getName() )?> <?= htmlspecialchars($ingredient->getQuantity() )?> <?= htmlspecialchars($ingredient->getUnit())?>
+<p> <?= htmlspecialchars($ingredient->getName() )?> <?= htmlspecialchars($ingredient->formatQuantity()) ?> <?= htmlspecialchars($ingredient->getUnit()) ?>
 </div>
 <?php endforeach; ?>
 </div>

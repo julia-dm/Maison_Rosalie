@@ -9,6 +9,8 @@ use model\manager\MailManager;
 use model\manager\CommentManager;
 use model\manager\RatingManager;
 use model\mapping\CommentMapping;
+use model\manager\ContactManager;
+use model\mapping\ContactMapping;
 $recipeManager = new RecipeManager($connectPDO);
 $ingredientsManager = new IngredientsManager($connectPDO);
 $stepsPrepManager=new StepsManager($connectPDO);
@@ -62,6 +64,62 @@ if ($page === 'accueil') {
     require_once RACINE_PATH. '/view/apropos.php';
 }
 elseif ($page === 'contact') {
+    $contactErrors = [];
+    $contactValues = ['fullname' => '', 'email' => '', 'message' => ''];
+    $contactSent = isset($_GET['sent']);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $contactValues['fullname'] = trim($_POST['fullname'] ?? '');
+        $contactValues['email'] = trim($_POST['email'] ?? '');
+        $contactValues['message'] = trim($_POST['message'] ?? '');
+
+        if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
+            $contactErrors[] = "La session a expiré, veuillez réessayer.";
+        }
+        if ($contactValues['fullname'] === '' || mb_strlen($contactValues['fullname']) > 100) {
+            $contactErrors[] = "Veuillez indiquer votre nom (100 caractères maximum).";
+        }
+        if (!filter_var($contactValues['email'], FILTER_VALIDATE_EMAIL) || mb_strlen($contactValues['email']) > 254) {
+            $contactErrors[] = "Veuillez indiquer une adresse e-mail valide.";
+        }
+        if ($contactValues['message'] === '' || mb_strlen($contactValues['message']) > 2000) {
+            $contactErrors[] = "Votre message est obligatoire (2000 caractères maximum).";
+        }
+
+        if (empty($contactErrors)) {
+            // 1) on garde une trace du message en base
+            $saved = false;
+            try {
+                $contactManager = new ContactManager($connectPDO);
+                $saved = $contactManager->addMessage(new ContactMapping([
+                    'name' => $contactValues['fullname'],
+                    'email' => $contactValues['email'],
+                    'subject' => 'Message depuis le formulaire de contact',
+                    'message' => $contactValues['message'],
+                ]));
+            } catch (Throwable $e) {
+                error_log('Contact (base de données) : ' . $e->getMessage());
+            }
+
+            // 2) on prévient Maison Rosalie par e-mail (Symfony Mailer)
+            $mailed = false;
+            try {
+                $mailManager = new MailManager();
+                $mailManager->sendContactMessage($contactValues['fullname'], $contactValues['email'], $contactValues['message']);
+                $mailed = true;
+            } catch (Throwable $e) {
+                error_log('Contact (envoi du mail) : ' . $e->getMessage());
+            }
+
+            // le message n'est perdu que si les deux ont échoué
+            if ($saved || $mailed) {
+                header('Location: ?page=contact&sent=1');
+                exit;
+            }
+            $contactErrors[] = "Votre message n'a pas pu être envoyé, veuillez réessayer plus tard.";
+        }
+    }
+
     require_once RACINE_PATH. '/view/contact.php';
 }
 elseif ($page === 'recettes') {

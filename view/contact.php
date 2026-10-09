@@ -48,20 +48,32 @@ require_once __DIR__ . "/inc/header.php";
 
     <section class="contact-form-section">
         <div class="container">
-            <form class="contact-form" action="/?page=contact" method="post">
+            <form class="contact-form" action="?page=contact" method="post">
                 <h2 class="contact-form-title">Envoyez-nous un message</h2>
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+
+                <?php if (!empty($contactSent)): ?>
+                    <p class="contact-alert contact-alert--success" role="status">Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.</p>
+                <?php endif; ?>
+                <?php if (!empty($contactErrors)): ?>
+                    <ul class="contact-alert contact-alert--error" role="alert">
+                        <?php foreach ($contactErrors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
 
                 <label class="sr-only" for="fullname">Nom complet</label>
                 <input class="contact-field" type="text" id="fullname" name="fullname" placeholder="Nom complet *"
-                    required>
+                    maxlength="100" value="<?= htmlspecialchars($contactValues['fullname'] ?? '') ?>" required>
 
                 <label class="sr-only" for="email">Adresse e-mail</label>
                 <input class="contact-field" type="email" id="email" name="email" placeholder="Adresse e-mail *"
-                    required>
+                    maxlength="254" value="<?= htmlspecialchars($contactValues['email'] ?? '') ?>" required>
 
                 <label class="sr-only" for="message">Votre message</label>
                 <textarea class="contact-field contact-textarea" id="message" name="message" rows="10"
-                    placeholder="Votre message *" required></textarea>
+                    placeholder="Votre message *" maxlength="2000" required><?= htmlspecialchars($contactValues['message'] ?? '') ?></textarea>
 
                 <button class="contact-submit" type="submit">
                     Envoyer le message

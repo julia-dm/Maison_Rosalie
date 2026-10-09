@@ -11,7 +11,8 @@ class IngredientsMapping extends AbstractMapping
     private ?int $id = null;
     private string $name = '';
     private string $img_ingredient = '';
-    private ?int $quantity= null;
+    // quantity est un DECIMAL(10,3) qui peut être NULL en base (ex. « sel : une pincée »)
+    private ?float $quantity= null;
     private string $unit= "";
     // getters and setters
     public function getId(): ?int
@@ -46,22 +47,32 @@ public function setImgIngredient (string $img_ingredient): void
 }
 
 
-public function getQuantity(): ?int
+public function getQuantity(): ?float
 {
     return $this->quantity;
 }
 
-public function setQuantity(int $quantity): void
+public function setQuantity(int|float|string|null $quantity): void
 {
-    $this->quantity = $quantity;
+    $this->quantity = ($quantity === null || $quantity === '') ? null : (float) $quantity;
 }
+
+// quantité lisible : "200" au lieu de "200.000", "1,5" au lieu de "1.500", vide si NULL
+public function formatQuantity(): string
+{
+    if ($this->quantity === null) {
+        return '';
+    }
+    return rtrim(rtrim(number_format($this->quantity, 3, ',', ''), '0'), ',');
+}
+
 public function getUnit(): string
 {
     return $this->unit;
 }
-public function setUnit(string $unit): void
+public function setUnit(?string $unit): void
 {
-    $this->unit = $unit;
+    $this->unit = trim($unit ?? '');
 }
 
 }

@@ -1,14 +1,14 @@
 <footer class="footer">
     <div class="container">
 
-        <a class="footer-logo" href="/"><img src="images/figma/footer-logo.png" alt="Maison Rosalie"></a>
+        <a class="footer-logo" href="?page=accueil"><img src="images/figma/footer-logo.png" alt="Maison Rosalie"></a>
 
         <section class="footer-col">
             <h2 class="footer-title">Nos recettes</h2>
             <ul class="footer-list">
-                <li><a class="footer-link" href="/?page=recettes">Pralines l’orangette</a></li>
-                <li><a class="footer-link" href="/?page=recettes">Pralines citronnelle</a></li>
-                <li><a class="footer-link" href="/?page=recettes">Pralines cerisette</a></li>
+                <li><a class="footer-link" href="?page=recetteDetails&amp;slug=la-praline-orangette">Pralines l’orangette</a></li>
+                <li><a class="footer-link" href="?page=recetteDetails&amp;slug=la-praline-citronnelle">Pralines citronnelle</a></li>
+                <li><a class="footer-link" href="?page=recetteDetails&amp;slug=la-praline-cerisette">Pralines cerisette</a></li>
             </ul>
         </section>
 
@@ -27,7 +27,7 @@
                 <li><a class="footer-link" href="#">Faq</a></li>
                 <li><a class="footer-link" href="#">Expédition &amp; livraison</a></li>
                 <li><a class="footer-link" href="#">Carrière chez Maison Rosalie</a></li>
-                <li><a class="footer-link" href="/?page=contact">Contactez-nous</a></li>
+                <li><a class="footer-link" href="?page=contact">Contactez-nous</a></li>
             </ul>
         </section>
 

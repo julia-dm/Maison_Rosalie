@@ -58,7 +58,7 @@ function pralineImage(string $mainImage): string
         <?php endif; ?>
     </section>
      <section class="hero-video">
-    <img class="video" src="/images/main-video.gif" alt="Description of the animation">
+    <img class="video" src="images/main-video.gif" alt="L'art du chocolat à la recette : atelier Maison Rosalie">
     </section>
 </main>
 <?php

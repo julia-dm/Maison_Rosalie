@@ -172,10 +172,10 @@ justify-content: space-between;
   fill: var(--text-secondary);
 }
 
-/* Icône contact (akar-icons:info) : tracé orange, remplace le lien texte « Contact » */
+/* Icône contact (enveloppe) : marron comme les autres icônes, orange au survol */
 .icon-stroke {
   fill: none;
-  stroke: var(--color-orange);
+  stroke: var(--bg-dark-brown);
   stroke-width: 2.67;
   transition: stroke 0.2s ease;
 }
@@ -184,7 +184,7 @@ justify-content: space-between;
 .nav-brand a:focus-visible .icon-stroke,
 .nav-contact[aria-current="page"] .icon-stroke {
   fill: none;
-  stroke: var(--bg-dark-brown);
+  stroke: var(--text-secondary);
 }
 
 .nav-list {
@@ -2522,4 +2522,21 @@ row-gap: 30px;
   color: #b00020;
   font-size: 12px;
   text-transform: none;
+}
+
+
+/* ---------- CONTACT : messages du formulaire ---------- */
+.contact-alert {
+  padding: 10px 14px;
+  border: 1px solid currentColor;
+  background: rgba(250, 243, 227, 0.85);
+  font-size: 14px;
+}
+
+.contact-alert--success {
+  color: #2f6b2f;
+}
+
+.contact-alert--error {
+  color: #9b2c2c;
 }

@@ -30,7 +30,7 @@
     <div class="container">
 
       <div class="logo-wrap">
-        <a class="logo" href="/"><img src="images/figma/logo-mr.png" alt="Maison Rosalie"></a>
+        <a class="logo" href="?page=accueil"><img src="images/figma/logo-mr.png" alt="Maison Rosalie"></a>
       </div>
 
       <nav class="navbar">
