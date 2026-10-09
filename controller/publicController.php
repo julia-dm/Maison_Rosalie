@@ -16,42 +16,62 @@ $userManager = new UserManager($connectPDO);
 $commentManager = new CommentManager($connectPDO);
 $ratingManager = new RatingManager($connectPDO);
 
-// jeton anti-CSRF partagé par les formulaires (connexion, avis…)
+$page = $_GET['page']?? 'accueil';
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-
-// ---------- Connexion / déconnexion (panneau du header, sur toutes les pages) ----------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['login_submit']) || isset($_POST['logout_submit']))) {
-    // on revient sur la page d'où vient le formulaire (URL relative uniquement)
-    $back = '?' . http_build_query($_GET);
-    $back = $back === '?' ? '?page=accueil' : $back;
-
-    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
-        $_SESSION['login_error'] = "La session a expiré, veuillez réessayer.";
-    } elseif (isset($_POST['logout_submit'])) {
-        unset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['role_name']);
-        session_regenerate_id(true);
-    } else {
-        $loginEmail = trim($_POST['email'] ?? '');
-        $loginUser = $userManager->getUserByEmail($loginEmail);
-
-        if ($loginUser !== null && password_verify($_POST['password'] ?? '', $loginUser->getPasswordHash())) {
-            session_regenerate_id(true); // évite la fixation de session
-            $_SESSION['user_id'] = $loginUser->getId();
-            $_SESSION['username'] = $loginUser->getUsername();
-            // le routeur attend 'Admin' pour ouvrir l'administration
-            $_SESSION['role_name'] = $loginUser->getRole() === 'admin' ? 'Admin' : 'User';
-        } else {
-            $_SESSION['login_error'] = "E-mail ou mot de passe incorrect.";
-            $_SESSION['login_email'] = $loginEmail;
-        }
+/* ================= LOGOUT ================= */
+if ($page === 'logout' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        # destruction des variables de sessions (réinitialisation du tableau $_SESSION)
+    $_SESSION = [];
+        # suppression du cookie
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
     }
-    header('Location: ' . $back);
+        # Destruction du fichier lié sur le serveur
+    session_destroy();
+    header('Location: ?page=accueil');
     exit;
 }
+/* ================= LOGIN================= */
 
-$page = $_GET['page']?? 'accueil';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
+
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    $user = $userManager->getUserByEmail($email);
+
+    if ($user && password_verify($password, $user['password_hash'])) {
+
+        session_regenerate_id(true);
+
+        $_SESSION['user_id'] = (int) $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        header('Location: ?page=accueil');
+        exit;
+
+    } else {
+        $_SESSION['login_error'] = "E-mail ou mot de passe incorrect.";
+        $_SESSION['login_email'] = $email;
+        header('Location: ?page=accueil');
+        exit;
+    }
+}
+
+
 if ($page === 'accueil') {
 
     $recipes = $recipeManager->getAllRecipes();
@@ -105,6 +125,7 @@ elseif ($page === 'inscription') {
             'generated_key' => ''
         ]);
         $userManager->createUser($user);
+
        /*  if ($userManager->createUser($user)) {
                 $mailManager = new MailManager();
             $mailManager->sendVerificationEmail(
@@ -140,11 +161,6 @@ elseif ($page === 'recetteDetails') {
     // ---------- Avis (note + commentaire) ----------
     // l'utilisateur connecté est attendu dans $_SESSION['user_id'] et $_SESSION['username']
     $currentUserId = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
-
-    // jeton anti-CSRF pour le formulaire d'avis
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
 
     $reviewErrors = [];
     $reviewValues = ['rating' => 0, 'message' => ''];

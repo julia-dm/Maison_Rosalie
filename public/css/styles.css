@@ -22,6 +22,7 @@ body {
   flex-direction: column;
 }
 
+
 img,
 picture,
 video,
@@ -66,7 +67,6 @@ a {
   /* Backgroubds */
   --bg-main: rgba(250, 243, 227, 1);
   --bg-dark-brown: rgba(67, 34, 5, 1);
-  --color-orange: #ed6e00;
   --font-display: "Bodoni Moda", "Monarque", serif;
   --font-body: "Josefin Sans", sans-serif;
   --font-ui: "Abhaya Libre", serif;
@@ -154,6 +154,7 @@ justify-content: space-between;
 
 .nav-brand {
   display: flex;
+  align-items: center;
   gap: 16px;
 }
 
@@ -170,6 +171,12 @@ justify-content: space-between;
 
 .nav-brand a:hover .icon {
   fill: var(--text-secondary);
+}
+.icon-line {
+  fill: none;
+  stroke: currentColor;
+  color: var(--bg-dark-brown);
+  transition: color 0.2s ease;
 }
 
 /* Icône contact (akar-icons:info) : tracé orange, remplace le lien texte « Contact » */
@@ -293,10 +300,7 @@ justify-content: space-between;
     gap: 8px;
   }
 
-  .icon {
-    width: 21px;
-    height: 21px;
-  }
+ 
 }
 
 /* ---------- HERO ---------- */
@@ -647,7 +651,6 @@ justify-content: space-between;
 .apropos_subtitle {
   margin-bottom: 40px;
   font-size: 24px;
-  font-weight: bold;
   font-weight: 400;
   letter-spacing: 0.08em;
   text-align: center;
@@ -798,6 +801,44 @@ justify-content: space-between;
   background: var(--text-primary);
   color: var(--color-white);
   text-align: center;
+}
+
+
+
+/* -------user connected  */
+.user-connected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-connected form {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--bg-dark-brown);
+  transition: color 0.2s ease;
+}
+.logout-btn:hover {
+  color: var(--color-orange);
+}
+
+.logout-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 
@@ -1119,7 +1160,6 @@ a.contact-info-link:focus-visible {
 text-align: center;
 padding-top: 10px;
   min-height: 280px;
-  text-align: center;
   border-radius: 15px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1173,10 +1213,6 @@ font-weight: 400;
   width: 100%;
   height: 220px;
   object-fit: contain;
-}
-
-.card-title{
-  color: var(--text-primary);
 }
 
 @media (max-width: 900px){
@@ -1816,6 +1852,15 @@ row-gap: 30px;
   .icon {
     width: 20px;
     height: 20px;
+  }
+  .logout-btn {
+    width: 20px;
+    height: 20px;
+  }
+
+  .logout-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .nav-list{
