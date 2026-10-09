@@ -26,17 +26,7 @@ $stmt->execute([
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row !== false;
 }
-    
-// connexion : on ne lit que les colonnes utiles (pas de generated_key, qui peut être NULL)
-public function getUserByEmail(string $email): ?UserMapping
-{
-    $sql = "SELECT id, username, email, password_hash, role FROM users WHERE email = :email LIMIT 1";
-    $stmt = $this->connect->prepare($sql);
-    $stmt->execute(['email' => $email]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $row === false ? null : new UserMapping($row);
-}
 
 public function createUser(UserMapping $user): bool
 {

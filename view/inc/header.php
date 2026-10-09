@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,24 +43,17 @@
                 <div class="user-connected">
 
 <span class="username">
-
     <?= htmlspecialchars(ucfirst($_SESSION['username'])) ?>
-
 </span>
-
 <form method="post" action="?page=logout">
-
     <button
         type="submit"
         class="logout-btn"
         aria-label="Déconnexion"
-        title="Déconnexion"
-    >
+        title="Déconnexion">
     <svg class="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
     </button>
-
 </form>
-
 </div>
 <?php else: ?>
               <button class="login-open" type="button" aria-label="Connexion" aria-expanded="false"
@@ -89,13 +81,6 @@
                 <label for="login-password">Mot de passe</label>
                 <input type="password" id="login-password" name="password" required>
 
-                  <div class="login-options">
-                    <label class="login-remember">
-                      <input type="checkbox" name="remember"> Enregistrer
-                    </label>
-                    <a href="#">Mot De Passe Oublié</a>
-                  </div>
-
                 <button class="login-submit" type="submit" name="login_submit" value="1">Login</button>
               </form>
 
@@ -112,8 +97,8 @@
 
               <p class="login-or">ou</p>
               <a class="login-register" href="?page=inscription">Crée un compte</a>
-            <?php endif; ?>
             </div>
+            <?php endif; ?>
             </div>
             <a href="?page=recettes">
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -123,20 +108,11 @@
             </a>
             <a class="nav-contact" href="?page=contact" aria-label="Contact" title="Contact"<?= ($page ?? '') === 'contact' ? ' aria-current="page"' : '' ?>>
               <svg class="icon icon-stroke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 29.33 29.33" aria-hidden="true">
-                <!-- enveloppe (e-mail) -->
                 <rect x="2.67" y="6" width="24" height="17.33" rx="2.67" />
                 <path d="m3.33 7.33 11.34 8.67 11.33-8.67" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </a>
           </div>
-
-          <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"
-            aria-controls="main-menu">
-
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </div>
         <ul class="nav-list" id="main-menu">
           <li class="nav-item">
