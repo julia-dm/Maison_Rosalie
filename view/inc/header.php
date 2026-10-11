@@ -41,6 +41,11 @@
             <div class="login-wrap">
               <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="user-connected">
+<?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+<a class="admin-link" href="?pg=admin" aria-label="Administration" title="Administration">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+</a>
+<?php endif; ?>
 
 <span class="username">
     <?= htmlspecialchars(ucfirst($_SESSION['username'])) ?>

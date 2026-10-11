@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . "/inc/header.php";
 
-// Image du praliné : version Figma optimisée si elle existe, sinon la vignette de la carte
+// Image du praliné : version Figma optimisée si elle existe, sinon la praline entière
+// (les recettes ajoutées depuis l'admin n'ont que main-recipe-img/ et cards/)
 function pralineImage(string $mainImage): string
 {
     $name = pathinfo($mainImage, PATHINFO_FILENAME);
     return file_exists(RACINE_PATH . "/public/images/figma/$name.webp")
         ? "images/figma/$name.webp"
-        : "images/cards/$mainImage";
+        : "images/main-recipe-img/$mainImage";
 }
 ?>
 

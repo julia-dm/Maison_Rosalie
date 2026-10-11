@@ -17,11 +17,18 @@ try {
     die($e->getMessage());
 }
 
-// si nous sommes connecté en tant qu'administrateur et que nous avons cliqué sur la partie administration
-if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Admin' && isset($_GET['pg']) && $_GET['pg'] === 'admin') {
+// partie administration (?pg=admin) : réservée aux comptes dont le rôle est 'admin'
+// ($_SESSION['role'] est posé à la connexion ; adminController revérifie le rôle en base)
+$wantsAdmin = ($_GET['pg'] ?? '') === 'admin';
+if ($wantsAdmin && ($_SESSION['role'] ?? '') === 'admin') {
     // on charge le contrôleur admin
     require_once RACINE_PATH . "/controller/adminController.php";
-}else{
+} elseif ($wantsAdmin) {
+    // pas admin : retour à l'accueil (le panneau de connexion s'ouvre avec le message)
+    $_SESSION['login_error'] = "Cette page est réservée aux administrateurs. Connectez-vous avec un compte admin.";
+    header('Location: ?page=accueil');
+    exit;
+} else {
     // on charge le contrôleur public
     require_once RACINE_PATH . "/controller/publicController.php";
 }

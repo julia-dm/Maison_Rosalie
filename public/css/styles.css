@@ -841,6 +841,27 @@ justify-content: space-between;
   height: 24px;
 }
 
+/* lien vers l'administration (comptes admin uniquement) */
+.admin-link {
+  display: flex;
+  color: var(--bg-dark-brown);
+  transition: color 0.2s ease;
+}
+.admin-link:hover,
+.admin-link:focus-visible {
+  color: var(--color-orange);
+}
+.admin-link svg {
+  width: 24px;
+  height: 24px;
+}
+@media (max-width: 768px) {
+  .admin-link svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 
 /* ---------- INSCRIPTION ---------- */
 .register {

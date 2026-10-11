@@ -55,4 +55,53 @@ public function getUserByEmail(string $email): array|false
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-} 
+// ================= ADMINISTRATION =================
+
+public function countAll(): int
+{
+    return (int) $this->connect->query("SELECT COUNT(*) FROM users")->fetchColumn();
+}
+
+public function countAdmins(): int
+{
+    return (int) $this->connect->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
+}
+
+// liste admin : chaque compte avec son nombre d'avis et de recettes créées
+public function getAllWithStats(): array
+{
+    $sql = "SELECT u.id, u.username, u.email, u.role, u.created_at,
+                   (SELECT COUNT(*) FROM comments c WHERE c.author_id = u.id) AS comments_count,
+                   (SELECT COUNT(*) FROM recipes r WHERE r.author_id = u.id) AS recipes_count
+            FROM users AS u
+            ORDER BY u.role = 'admin' DESC, u.created_at DESC";
+    return $this->connect->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getById(int $id): ?array
+{
+    $stmt = $this->connect->prepare(
+        "SELECT id, username, email, role,
+                (SELECT COUNT(*) FROM recipes r WHERE r.author_id = users.id) AS recipes_count
+         FROM users WHERE id = :id"
+    );
+    $stmt->execute(['id' => $id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row === false ? null : $row;
+}
+
+public function setRole(int $id, string $role): bool
+{
+    if (!in_array($role, ['user', 'admin'], true)) {
+        return false;
+    }
+    return $this->connect->prepare("UPDATE users SET role = :role WHERE id = :id")
+        ->execute(['role' => $role, 'id' => $id]);
+}
+
+// avis et notes partent avec (ON DELETE CASCADE) ; un auteur de recettes est refusé par la base
+public function deleteUser(int $id): bool
+{
+    return $this->connect->prepare("DELETE FROM users WHERE id = :id")->execute(['id' => $id]);
+}
+}

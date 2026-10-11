@@ -1,0 +1,5 @@
+# Les images envoyées depuis l'admin ne doivent jamais être exécutées comme du code
+<FilesMatch "\.(php|phtml|phar|php\d|pht|shtml|cgi|pl|py)$">
+    Require all denied
+</FilesMatch>
+Options -ExecCGI -Indexes
