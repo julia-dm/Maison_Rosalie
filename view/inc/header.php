@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +7,9 @@
   <link rel="stylesheet" href="css/styles.css">
   <!-- Google-fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,8 +21,10 @@
   <!-- ============================ -->
 
   <title>Maison Rosalie – Le livre de recettes au chocolat</title>
-  <meta name="description" content="Maison Rosalie, chocolaterie belge depuis 1987 : découvrez nos recettes de chocolat pas à pas.">
-  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <meta name="description"
+    content="Maison Rosalie, chocolaterie belge depuis 1987 : découvrez nos recettes de chocolat pas à pas.">
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Josefin+Sans:wght@300;400&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
@@ -37,12 +39,27 @@
         <div class="nav-top">
           <div class="nav-brand">
             <div class="login-wrap">
-            <button class="login-open" type="button" aria-label="Connexion" aria-expanded="false" aria-controls="login-panel">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1em" viewBox="0 0 640 512">
-                <path
-                  d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128m89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h274.9c-2.4-6.8-3.4-14-2.6-21.3l6.8-60.9 1.2-11.1 7.9-7.9 77.3-77.3c-24.5-27.7-60-45.5-99.9-45.5m45.3 145.3-6.8 61c-1.1 10.2 7.5 18.8 17.6 17.6l60.9-6.8 137.9-137.9-71.7-71.7zM633 268.9 595.1 231c-9.3-9.3-24.5-9.3-33.8 0l-37.8 37.8-4.1 4.1 71.8 71.7 41.8-41.8c9.3-9.4 9.3-24.5 0-33.9" />
-              </svg>
-            </button>
+              <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="user-connected">
+
+<span class="username">
+    <?= htmlspecialchars(ucfirst($_SESSION['username'])) ?>
+</span>
+<form method="post" action="?page=logout">
+    <button
+        type="submit"
+        class="logout-btn"
+        aria-label="Déconnexion"
+        title="Déconnexion">
+    <svg class="logout-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+    </button>
+</form>
+</div>
+<?php else: ?>
+              <button class="login-open" type="button" aria-label="Connexion" aria-expanded="false"
+                aria-controls="login-panel">
+                <svg class="icon icon-line" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 11v6"/><path d="M19 13h2"/><path d="M2 21a8 8 0 0 1 12.868-6.349"/><circle cx="10" cy="8" r="5"/><circle cx="19" cy="19" r="2"/></svg>
+              </button>
 
             <!-- Panneau connexion -->
             <?php
@@ -52,13 +69,7 @@
             unset($_SESSION['login_error'], $_SESSION['login_email']);
             ?>
             <div class="login-panel<?= $loginError ? ' is-open' : '' ?>" id="login-panel">
-            <?php if (isset($_SESSION['user_id'])): ?>
-              <p class="login-title">Bonjour, <?= htmlspecialchars($_SESSION['username'] ?? '') ?></p>
-              <form class="login-form" method="post" action="">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
-                <button class="login-submit" type="submit" name="logout_submit" value="1">Se déconnecter</button>
-              </form>
-            <?php else: ?>
+            
               <p class="login-title">Connexion</p>
               <?php if ($loginError): ?>
                 <p class="login-error" role="alert"><?= htmlspecialchars($loginError) ?></p>
@@ -70,63 +81,47 @@
                 <label for="login-password">Mot de passe</label>
                 <input type="password" id="login-password" name="password" required>
 
-                <div class="login-options">
-                  <label class="login-remember">
-                    <input type="checkbox" name="remember"> Enregistrer
-                  </label>
-                  <a href="#">Mot De Passe Oublié</a>
-                </div>
-
                 <button class="login-submit" type="submit" name="login_submit" value="1">Login</button>
               </form>
 
-              <div class="login-social">
-                <a href="#">
-                  <img src="images/icons/google.svg" alt="" width="16" height="16">
-                  Google
-                </a>
-                <a href="#">
-                  <img src="images/icons/facebook.svg" alt="" width="16" height="16">
-                  Facebook
-                </a>
-              </div>
+                <div class="login-social">
+                  <a href="#">
+                    <img src="images/icons/google.svg" alt="" width="16" height="16">
+                    Google
+                  </a>
+                  <a href="#">
+                    <img src="images/icons/facebook.svg" alt="" width="16" height="16">
+                    Facebook
+                  </a>
+                </div>
 
               <p class="login-or">ou</p>
               <a class="login-register" href="?page=inscription">Crée un compte</a>
+            </div>
             <?php endif; ?>
             </div>
-            </div>
             <a href="?page=recettes">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
                   d="M8 2h8a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm0 2a1 1 0 0 0-1 1v3h4V4H8zm5 0v4h4V5a1 1 0 0 0-1-1h-3zM7 10v4h4v-4H7zm6 0v4h4v-4h-4zM7 16v3a1 1 0 0 0 1 1h3v-4H7zm6 0v4h3a1 1 0 0 0 1-1v-3h-4z" />
               </svg>
             </a>
             <a class="nav-contact" href="?page=contact" aria-label="Contact" title="Contact"<?= ($page ?? '') === 'contact' ? ' aria-current="page"' : '' ?>>
               <svg class="icon icon-stroke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 29.33 29.33" aria-hidden="true">
-                <!-- enveloppe (e-mail) -->
                 <rect x="2.67" y="6" width="24" height="17.33" rx="2.67" />
                 <path d="m3.33 7.33 11.34 8.67 11.33-8.67" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </a>
           </div>
-
-          <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"
-            aria-controls="main-menu">
-
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </div>
         <ul class="nav-list" id="main-menu">
           <li class="nav-item">
             <a class="nav-link" href="?page=accueil">Accueil</a>
           </li>
-        
-          <li class="nav_item"><a class="nav-link" href="?page=recettes">Recettes</a></li>
-          </li>
-          <li class="nav_item"><a class="nav-link" href="?page=apropos">À propos</a></li>
+
+          <li class="nav-item"><a class="nav-link" href="?page=recettes">Recettes</a></li>
+  
+          <li class="nav-item"><a class="nav-link" href="?page=apropos">À propos</a></li>
 
         </ul>
       </nav>
